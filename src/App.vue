@@ -5,7 +5,7 @@ import type {UserService} from '@/user/services/UserService.ts';
 import {useUserStore} from '@/stores/userStore.ts';
 import UpdatePWAPrompt from '@/UpdatePWAPrompt.vue';
 import Notification from '@/components/Notification.vue';
-import InstallPWAPrompt from '@/views/InstallPWAPrompt.vue';
+
 const router = useRouter()
 const transitionName = ref('')
 
@@ -35,5 +35,4 @@ onMounted(async () => {
     </Transition>
   </RouterView>
   <UpdatePWAPrompt />
-  <InstallPWAPrompt />
 </template>

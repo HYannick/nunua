@@ -19,6 +19,7 @@ import GroceryItemList from '@/views/GroceryItemList.vue';
 import GroceryItemListEmpty from '@/views/GroceryItemListEmpty.vue';
 import {useRoute, useRouter} from 'vue-router';
 import { DrawerRoot } from 'vaul-vue';
+import InstallPWAPrompt from '@/views/InstallPWAPrompt.vue';
 
 const groceryListService = inject('groceryListService') as GroceryListService
 const userStore = useUserStore();
@@ -167,4 +168,5 @@ watch(() => currentTab.value, async (newTab) => {
       </BottomSheet>
     </div>
   </DrawerRoot>
+  <InstallPWAPrompt />
 </template>
