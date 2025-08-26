@@ -1,0 +1,204 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: all;
+}
+@plugin "daisyui/theme" {
+    name: "light";
+    default: true;
+    /* Grocery Pastel Theme */
+    --color-base-100: oklch(98% 0.01 120); /* Very light mint/cream */
+    --color-base-200: oklch(96% 0.02 120); /* Subtle mint tint */
+    --color-base-300: oklch(93% 0.03 120); /* Soft mint gray */
+    --color-base-content: oklch(25% 0.04 120); /* Dark green-gray text */
+
+    --color-primary: oklch(65% 0.15 150); /* Soft sage green */
+    --color-primary-content: oklch(98% 0.01 150);
+
+    --color-secondary: oklch(70% 0.12 60); /* Warm peachy beige */
+    --color-secondary-content: oklch(25% 0.04 60);
+
+    --color-accent: oklch(75% 0.08 40); /* Soft coral/salmon */
+    --color-accent-content: oklch(25% 0.04 40);
+
+    --color-neutral: oklch(55% 0.03 120); /* Muted sage */
+    --color-neutral-content: oklch(98% 0.01 120);
+
+    --color-info: oklch(72% 0.1 200); /* Soft sky blue */
+    --color-info-content: oklch(25% 0.04 200);
+
+    --color-success: oklch(68% 0.15 140); /* Fresh lettuce green */
+    --color-success-content: oklch(98% 0.01 140);
+
+    --color-warning: oklch(78% 0.12 70); /* Banana yellow */
+    --color-warning-content: oklch(25% 0.04 70);
+
+    --color-error: oklch(70% 0.15 15); /* Soft tomato red */
+    --color-error-content: oklch(98% 0.01 15);
+}
+
+@plugin "daisyui/theme" {
+    name: "dark";
+    default: false;
+    /* Grocery Pastel Dark Theme */
+    /* Dark Grove Theme */
+    --color-base-100: oklch(15% 0.02 120); /* Deep forest base */
+    --color-base-200: oklch(18% 0.03 120); /* Rich dark green */
+    --color-base-300: oklch(22% 0.04 120); /* Elevated dark green */
+    --color-base-content: oklch(85% 0.02 120); /* Soft mint text */
+
+    --color-primary: oklch(65% 0.15 140); /* Vibrant sage (slightly brighter) */
+    --color-primary-content: oklch(15% 0.02 140);
+
+    --color-secondary: oklch(60% 0.12 45); /* Warm amber */
+    --color-secondary-content: oklch(15% 0.02 45);
+
+    --color-accent: oklch(70% 0.12 35); /* Soft coral */
+    --color-accent-content: oklch(15% 0.02 35);
+
+    --color-neutral: oklch(35% 0.03 120); /* Mid-tone sage */
+    --color-neutral-content: oklch(85% 0.02 120);
+
+    --color-info: oklch(65% 0.12 200); /* Cool blue */
+    --color-info-content: oklch(15% 0.02 200);
+
+    --color-success: oklch(68% 0.15 140); /* Fresh green */
+    --color-success-content: oklch(15% 0.02 140);
+
+    --color-warning: oklch(75% 0.15 70); /* Warm honey */
+    --color-warning-content: oklch(15% 0.02 70);
+
+    --color-error: oklch(70% 0.15 15); /* Muted red */
+    --color-error-content: oklch(15% 0.02 15);
+}
+
+a {
+    -webkit-touch-callout: none;
+}
+.page {
+  width:  100%;
+  @apply min-h-svh;
+  @apply bg-base-100;
+    @apply mx-auto max-w-md;
+}
+
+.anim-bounce {
+  @apply active:scale-[0.98] duration-75;
+}
+
+
+.page-left-enter-active,
+.page-right-enter-active{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  transition: all 650ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.page-left-leave-active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 700ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.page-right-leave-active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 700ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+
+.page-left-enter-from {
+  transform: translateX(100%);
+  z-index: -1;
+}
+
+.page-right-enter-from {
+  transform: translateX(-100%);
+  filter: brightness(0.5);
+}
+
+.page-left-leave-to {
+  transform: translateX(-40%);
+  filter: brightness(0.8);
+  z-index: -1;
+}
+
+.page-right-leave-to {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 1;
+}
+
+.page-left-enter-to, .page-right-enter-to {
+  transform: translateX(0);
+  z-index: 1;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0.5;
+  transform: translateX(100%);
+}
+
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(100%);
+}
+
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stagger-enter-active {
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    transition-delay: calc(var(--i) * 0.1s);
+}
+
+.stagger-enter-from {
+    opacity: 0;
+    transform: translateY(10px);
+}
