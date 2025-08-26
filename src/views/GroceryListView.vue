@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {inject, onMounted, onUnmounted, ref, watch} from 'vue';
+import {inject, onMounted, onUnmounted, ref} from 'vue';
 import {LucideEllipsisVertical} from 'lucide-vue-next';
 import BaseHeading from '@/components/BaseHeading.vue';
 import type {GroceryItem} from '@/grocery-list/domain/GroceryItem.ts';
