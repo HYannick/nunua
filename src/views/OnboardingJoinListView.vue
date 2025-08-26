@@ -13,6 +13,7 @@ import {useNotificationStore} from '@/stores/NotificationStore.ts';
 import {useI18n} from 'vue-i18n';
 import type {GroceryListService} from '@/grocery-list/infrastructure/GroceryListService.ts';
 import OnboardingLightStep2 from '@/views/onboarding/OnboardingLightStep2.vue';
+import InstallPrompt from '@/views/onboarding/InstallPrompt.vue';
 
 interface OnboardingSlide {
   id: string
@@ -44,9 +45,13 @@ const slides: OnboardingSlide[] = [
     id: 'step3',
     component: OnboardingLightStep3,
   },
+  {
+    id: 'install',
+    component: InstallPrompt,
+  },
 ]
 
-const isLastSlide = computed(() => currentPageIndex.value === slides.length -1 )
+const isLastSlide = computed(() => currentPageIndex.value === slides.length - 1)
 const isFirstSlide = computed(() => currentPageIndex.value === 0)
 
 
@@ -63,7 +68,7 @@ function previousSlide() {
 }
 
 function skipToEnd() {
-  currentPageIndex.value = slides.length - 2
+  currentPageIndex.value = slides.length - 3
 }
 
 const userService = inject('userService') as UserService
@@ -83,28 +88,52 @@ async function setupUser() {
 }
 
 function handleNext() {
-  if(slides[currentPageIndex.value].id === 'step2') {
+  if (slides[currentPageIndex.value].id === 'step2') {
     setupUser();
   }
   nextSlide();
 }
 
 const groceryListService = inject('groceryListService') as GroceryListService
+
 enum JoinStatusEnum {
   AlreadyJoined = 'alreadyJoined',
   Error = 'error',
   ListFound = 'listFound',
   Idle = 'idle'
 }
+
+
+let startX = 0
+let endX = 0
+
+const handleTouchStart = (e: TouchEvent) => {
+  startX = e.touches[0].clientX
+}
+
+const handleTouchEnd = (e: TouchEvent) => {
+  endX = e.changedTouches[0].clientX
+  const diffX = startX - endX
+
+  if (Math.abs(diffX) > 50) {
+    if (diffX > 0 && !isLastSlide.value) {
+      nextSlide()
+    } else if (diffX < 0 && !isFirstSlide.value) {
+      previousSlide()
+    }
+  }
+}
+
 const joinList = async (status: JoinStatusEnum) => {
-  if(status === JoinStatusEnum.AlreadyJoined) {
+  console.log('??')
+  if (status === JoinStatusEnum.AlreadyJoined) {
     router.replace({
       name: 'grocery-list',
       params: {shareCode: shareCode.value}
     });
     return;
   }
-  if(status === JoinStatusEnum.Error) {
+  if (status === JoinStatusEnum.Error) {
     router.replace({name: 'home'});
     return;
   }
@@ -144,7 +173,8 @@ const handleConfirm = async (status: JoinStatusEnum) => {
     <!-- Main content -->
     <div class="flex flex-col h-full">
       <!-- Slides container -->
-      <div class="flex-1 flex items-center justify-center p-6">
+      <div class="flex-1 flex items-center justify-center p-6" @touchstart="handleTouchStart"
+           @touchend="handleTouchEnd">
         <div class="w-full max-w-md">
           <!-- Regular slides -->
           <div
@@ -152,20 +182,21 @@ const handleConfirm = async (status: JoinStatusEnum) => {
               class="text-center space-y-8 animate-fade-in"
           >
             <!-- Replace the component :is with explicit conditionals -->
-            <OnboardingLightStep1 v-if="slides[currentPageIndex].id === 'step1'" />
+            <OnboardingLightStep1 v-if="currentPageIndex === 0"/>
 
             <OnboardingLightStep2
-                v-if="slides[currentPageIndex].id === 'step2'"
+                v-if="currentPageIndex === 1"
                 v-model="username"
                 :avatar-string="avatarString"
                 @avatar-generated="avatarString = $event"
             />
 
             <OnboardingLightStep3
-                v-if="slides[currentPageIndex].id === 'step3'"
+                v-if="currentPageIndex === 2"
                 :share-code="shareCode"
                 @result="handleConfirm($event)"
             />
+            <InstallPrompt v-if="currentPageIndex === 3"/>
           </div>
         </div>
       </div>
@@ -199,7 +230,7 @@ const handleConfirm = async (status: JoinStatusEnum) => {
 
         <!-- Next/Complete button -->
         <button
-            v-if="!showConfirmButton"
+            v-if="!isLastSlide"
             @click="handleNext"
             class="btn btn-primary rounded-full btn-circle btn-xl w-18 h-18 gap-2"
             :disabled="slides[currentPageIndex]?.id === 'step2' && !username.trim()"
@@ -207,7 +238,7 @@ const handleConfirm = async (status: JoinStatusEnum) => {
           <LucideArrowRight :size="20"/>
         </button>
         <button
-            v-else-if="showConfirmButton && isLastSlide"
+            v-else
             @click="joinList(joinStatus)"
             class="btn btn-success rounded-full btn-circle btn-xl w-18 h-18 gap-2">
           <LucideCheck :size="20"/>
