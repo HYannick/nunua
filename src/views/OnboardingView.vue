@@ -11,6 +11,7 @@ import OnboardingStep1 from '@/views/onboarding/OnboardingStep1.vue';
 import OnboardingStep2 from '@/views/onboarding/OnboardingStep2.vue';
 import {generateRandomWord} from '@/utils/string.utils.ts';
 import OnboardingStep3 from '@/views/onboarding/OnboardingStep3.vue';
+import InstallPrompt from '@/views/onboarding/InstallPrompt.vue';
 
 interface OnboardingSlide {
   id: string
@@ -26,21 +27,14 @@ const avatarString = ref(generateRandomWord(10));
 const keyboardVisible = ref(false)
 
 const slides: OnboardingSlide[] = [
-  {
-    id: 'step1',
-    component: OnboardingStep1,
-  },
-  {
-    id: 'step2',
-    component: OnboardingStep2,
-  },
-  {
-    id: 'step3',
-    component: OnboardingStep3,
-  },
+  { id: 'step1', component: OnboardingStep1 },
+  { id: 'step2', component: OnboardingStep2 },
+  { id: 'step3', component: OnboardingStep3 },
+  { id: 'profile', component: ProfileSetup },
+  { id: 'install', component: InstallPrompt }
 ]
 
-const isLastSlide = computed(() => currentPageIndex.value === slides.length)
+const isLastSlide = computed(() => currentPageIndex.value === slides.length -1)
 const isFirstSlide = computed(() => currentPageIndex.value === 0)
 
 
@@ -57,7 +51,7 @@ function previousSlide() {
 }
 
 function skipToEnd() {
-  currentPageIndex.value = slides.length
+  currentPageIndex.value = slides.length - 2
 }
 
 const userService = inject('userService') as UserService
@@ -84,6 +78,26 @@ function handleNext() {
     nextSlide()
   }
 }
+
+let startX = 0
+let endX = 0
+
+const handleTouchStart = (e: TouchEvent) => {
+  startX = e.touches[0].clientX
+}
+
+const handleTouchEnd = (e: TouchEvent) => {
+  endX = e.changedTouches[0].clientX
+  const diffX = startX - endX
+
+  if (Math.abs(diffX) > 50) {
+    if (diffX > 0 && !isLastSlide.value) {
+      nextSlide()
+    } else if (diffX < 0 && !isFirstSlide.value) {
+      previousSlide()
+    }
+  }
+}
 </script>
 
 <template>
@@ -99,23 +113,17 @@ function handleNext() {
     <!-- Main content -->
     <div class="flex flex-col h-full">
       <!-- Slides container -->
-      <div class="flex-1 flex items-center justify-center p-6">
+      <div class="flex-1 flex items-center justify-center p-6"
+           @touchstart="handleTouchStart"
+           @touchend="handleTouchEnd"
+      >
         <div class="w-full max-w-md">
           <!-- Regular slides -->
-          <div
-              v-if="!isLastSlide"
-              :key="currentPageIndex"
-              class="text-center space-y-8 animate-fade-in"
-          >
-            <component  :is="slides[currentPageIndex].component"/>
-          </div>
-          <div v-else>
-            <ProfileSetup
-                v-model="username"
-                :avatar-string="avatarString"
-                @avatar-generated="avatarString = $event"
-            />
-          </div>
+          <OnboardingStep1 v-if="currentPageIndex === 0" />
+          <OnboardingStep2 v-if="currentPageIndex === 1" />
+          <OnboardingStep3 v-if="currentPageIndex === 2" />
+          <ProfileSetup v-if="currentPageIndex === 3" v-model="username" :avatar-string="avatarString" @avatar-generated="avatarString = $event" />
+          <InstallPrompt v-if="currentPageIndex === 4" />
         </div>
       </div>
 
@@ -123,7 +131,7 @@ function handleNext() {
       <div class="flex justify-center py-6">
         <div class="flex space-x-2">
           <div
-              v-for="(_, index) in [...slides, {}]"
+              v-for="(_, index) in [...slides]"
               :key="index"
               class="w-2 h-2 rounded-full transition-all duration-300"
               :class="index === currentPageIndex
@@ -150,7 +158,7 @@ function handleNext() {
         <button
             @click="handleNext"
             class="btn btn-primary rounded-full btn-circle btn-xl w-18 h-18 gap-2"
-            :disabled="isLastSlide && !username.trim()"
+            :disabled="currentPageIndex === 3 && !username.trim()"
         >
           <LucideCheck v-if="isLastSlide" :size="20"/>
           <LucideArrowRight v-else :size="20"/>
