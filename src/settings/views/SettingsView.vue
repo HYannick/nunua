@@ -3,6 +3,7 @@ import {useRouter} from 'vue-router'
 import BaseHeroHeading from '@/components/BaseHeroHeading.vue';
 import {useSettingsStore} from '@/settings/store/SettingsStore.ts';
 import {storeToRefs} from 'pinia';
+import InstallPWACard from '@/views/InstallPWACard.vue';
 
 // Inject services
 const router = useRouter()
@@ -151,6 +152,8 @@ const navigateToCurrencySettings = () => {
             </svg>
           </div>
         </div>
+
+        <InstallPWACard />
 
         <!-- App Info Section -->
         <div class="p-6 bg-base-100">

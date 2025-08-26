@@ -58,6 +58,8 @@ export default {
     "hello": "Hello"
   },
   "buttons": {
+    "installApp": "Install",
+    "later": "Later",
     "fabCreateList": "Create a list",
     "viewList": "View list",
     "fabJoinList": "Join a list",
@@ -418,5 +420,12 @@ export default {
     notFound: "List not found",
     alreadyJoined: "You have already joined this list",
     description: "You have been invited to join the grocery list {listName} by {inviterName}. To join the list, please click the button below.",
+  },
+
+  installPrompt: {
+    title: "Get the most out of Nunua!",
+    description: "For a better experience you can install the app on your device",
+    installButton: "Install",
+    cancelButton: "Cancel"
   }
 }

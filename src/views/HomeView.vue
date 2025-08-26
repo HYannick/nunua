@@ -122,23 +122,6 @@ watch(() => currentTab.value, async (newTab) => {
   }
 }, {immediate: true});
 
-const bip = ref<Event | null>(null);
-const appInstalled = ref(true);
-
-onMounted(async () => {
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    bip.value = e;
-    appInstalled.value = false;
-  });
-
-  window.addEventListener('appinstalled', () => {
-    bip.value = null;
-    appInstalled.value = true;
-    success(t('notifications.appInstalled'));
-  })
-});
-
 </script>
 <template>
   <DrawerRoot :open="isOpen" @close="closeBottomSheet">
@@ -176,15 +159,6 @@ onMounted(async () => {
           </template>
         </GroceryItemList>
 
-      </div>
-      <div v-if="!appInstalled" class="fixed bottom-0 left-0 right-0 z-50 p-5 bg-secondary">
-        <p class="text text-center text-secondary-content">
-          For a better experience you can install the app on your device
-          <button class="btn btn-ghost btn-sm" @click="bip && (bip as any).prompt()">
-            <LucideDownload class="w-4 h-4 mr-2"/>
-            {{ $t('buttons.installApp') }}
-          </button>
-        </p>
       </div>
       <ExpandableFAB :buttons="buttons"/>
       <BottomSheet @close="closeBottomSheet">
