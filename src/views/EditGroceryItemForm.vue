@@ -12,6 +12,7 @@ const props = defineProps<{
 
 defineEmits<{
   (e: 'saveItem', updatedItem: {quantity: number; price: number; notes: string}): void
+  (e: 'deleteItem', itemId: string): void
 }>();
 
 const editItemForm = ref({
@@ -30,7 +31,14 @@ const editItemForm = ref({
     </div>
     <div class="divider"></div>
     <BaseTextarea v-model="editItemForm.notes" name="notes" rows="3" placeholder="groceryItem.inputNotesPlaceholder" />
-    <BaseButton type="submit" label="buttons.save" class="w-full"/>
+    <div class="flex gap-2">
+      <div class="flex-1">
+        <BaseButton type="button" label="buttons.delete" btn-style="outline" @click="$emit('deleteItem', item.id)" />
+      </div>
+      <div class="flex-1">
+        <BaseButton type="submit" label="buttons.save" class="w-full"/>
+      </div>
+    </div>
   </form>
 </template>
 

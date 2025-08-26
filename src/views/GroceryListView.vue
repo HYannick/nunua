@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {inject, onMounted, onUnmounted, ref} from 'vue';
+import {inject, onMounted, onUnmounted, ref, watch} from 'vue';
 import {LucideEllipsisVertical} from 'lucide-vue-next';
 import BaseHeading from '@/components/BaseHeading.vue';
 import type {GroceryItem} from '@/grocery-list/domain/GroceryItem.ts';
@@ -140,6 +140,7 @@ const checkItem = async (checked: boolean, id: string) => {
 }
 
 const deleteItem = async (id: string) => {
+  closeCardBottomSheet();
   await groceryListService.deleteGroceryItem(id, props.isOnline)
   if (!props.isOnline) {
     listItems.value = listItems.value.filter(item => item.id !== id);
@@ -253,7 +254,7 @@ const saveBudget = async (budgetValue: string) => {
     </DrawerRoot>
     <BottomSheet @close="closeCardBottomSheet">
       <div class="p-5">
-        <EditGroceryItemForm v-if="currentItem" :item="currentItem" @saveItem="saveItem"/>
+        <EditGroceryItemForm v-if="currentItem" :item="currentItem" @saveItem="saveItem" @deleteItem="deleteItem"/>
       </div>
     </BottomSheet>
 

@@ -76,6 +76,7 @@ a {
 }
 .page {
   width:  100%;
+    @apply pb-34;
   @apply min-h-svh;
   @apply bg-base-100;
     @apply mx-auto max-w-md;
@@ -83,6 +84,10 @@ a {
 
 .anim-bounce {
   @apply active:scale-[0.98] duration-75;
+}
+
+body {
+    overscroll-behavior: none;
 }
 
 
