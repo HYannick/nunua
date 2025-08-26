@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, computed, onMounted, onUnmounted, inject} from 'vue'
+import {ref, computed, inject} from 'vue'
 import {useRouter} from 'vue-router'
 import {LucideCheck, LucideArrowRight, LucideChevronLeft} from 'lucide-vue-next'
 import type {UserService} from '@/user/services/UserService.ts';
@@ -57,11 +57,10 @@ function previousSlide() {
 }
 
 function skipToEnd() {
-  currentPageIndex.value = slides.length -1
+  currentPageIndex.value = slides.length
 }
 
 const userService = inject('userService') as UserService
-// const {isPermissionGranted ,requestPermission} = useNotifications();
 const userStore = useUserStore();
 
 async function completeOnboarding() {
@@ -85,23 +84,6 @@ function handleNext() {
     nextSlide()
   }
 }
-
-onMounted(() => {
-  const handleResize = () => {
-    const heightDifference = window.innerHeight - window.visualViewport?.height! || 0
-    keyboardVisible.value = heightDifference > 150
-  }
-
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', handleResize)
-  }
-
-  onUnmounted(() => {
-    if (window.visualViewport) {
-      window.visualViewport.removeEventListener('resize', handleResize)
-    }
-  })
-})
 </script>
 
 <template>
@@ -168,7 +150,7 @@ onMounted(() => {
         <button
             @click="handleNext"
             class="btn btn-primary rounded-full btn-circle btn-xl w-18 h-18 gap-2"
-            :disabled="slides[currentPageIndex]?.id === 'profileSetup' && !username.trim()"
+            :disabled="isLastSlide && !username.trim()"
         >
           <LucideCheck v-if="isLastSlide" :size="20"/>
           <LucideArrowRight v-else :size="20"/>
