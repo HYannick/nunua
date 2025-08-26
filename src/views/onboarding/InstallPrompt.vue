@@ -4,7 +4,7 @@
         title="installPrompt.title"
         description="installPrompt.description"
         :illustration="AddNotesIllustration" />
-    <div class="flex gap-5 justify-center mt-5">
+    <div v-if="!appInstalled" class="flex gap-5 justify-center mt-5">
       <button @click="closePrompt" class="btn rounded-full btn-lg">{{ $t('buttons.later') }}</button>
       <button @click="bip && (bip as any).prompt()" class="btn btn-lg btn-primary rounded-full">{{ $t('buttons.installApp') }}</button>
     </div>
