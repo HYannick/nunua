@@ -12,7 +12,7 @@ import type {GroceryListService} from '@/grocery-list/infrastructure/GroceryList
 import {useNotificationStore} from '@/stores/NotificationStore.ts';
 import type {GroceryList} from '@/grocery-list/domain/GroceryList.ts';
 import ExpandableFAB from '@/components/ExpandableFAB.vue';
-import {LucideArrowLeftSquare, LucideDownload, LucidePlus} from 'lucide-vue-next';
+import {LucideArrowLeftSquare, LucidePlus} from 'lucide-vue-next';
 import GroceryJoinForm from '@/grocery-list/compontents/GroceryJoinForm.vue';
 import {useI18n} from 'vue-i18n';
 import GroceryItemList from '@/views/GroceryItemList.vue';
