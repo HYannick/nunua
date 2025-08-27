@@ -2,8 +2,10 @@
 
 import BaseInput from '@/components/BaseInput.vue';
 import {ref} from 'vue';
-
-const budgetValue = ref(0);
+const props = defineProps<
+    {initialBudget?: number}
+>()
+const budgetValue = ref(props.initialBudget ?? 0);
 
 defineEmits(['save-budget'])
 </script>

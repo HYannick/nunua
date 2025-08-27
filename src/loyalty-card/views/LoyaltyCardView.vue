@@ -63,7 +63,7 @@ const deleteCard = async (cardId: string) => {
             </template>
           </EmptyContainerIllustration>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 pb-34">
           <div v-for="card in cards" :key="card.id" class="max-w-96 w-full h-32 rounded-3xl relative" :class="card.styles.bgColor"
                @click="selectCard(card)">
             <button @click.stop="deleteCard(card.id)" class="btn btn-ghost btn-circle absolute right-2 top-2">

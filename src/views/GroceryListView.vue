@@ -218,9 +218,12 @@ const saveBudget = async (budgetValue: string) => {
   <DrawerRoot :open="isOpen" @close="closeCardBottomSheet">
     <DrawerRoot :open="true" :modal="false" v-model:active-snap-point="snap" :snap-points="snapPoints" :dismissible="false">
       <BottomSheet :snap="snap" withSnapPoints bgColor="shadow-[0_0_10px_1px] shadow-base-content/10">
-        <BudgetInfo :grocery-items="listItems" :budget="groceryList?.budget" @expand="snap = 1" @open-budget-modal="openBudgetSetModal"/>
+        <BudgetInfo
+            :grocery-items="listItems" :budget="groceryList?.budget" @expand="snap = 1" @open-budget-modal="openBudgetSetModal"
+            @editBudget="openBudgetSetModal"
+        />
       </BottomSheet>
-      <BudgetSetterModal id="modal_budget" :list-id="groceryList?.id" @save-budget="saveBudget"/>
+      <BudgetSetterModal id="modal_budget" :list-id="groceryList?.id" @save-budget="saveBudget" :initialBudget="groceryList?.budget"/>
       <div class="page transition-opacity" :class="{
         'opacity-10 pointer-events-none select-none': snap === 0.9
       }">
@@ -247,7 +250,7 @@ const saveBudget = async (budgetValue: string) => {
                                           :illustration="EmptyCartIllustration">
               </EmptyContainerIllustration>
             </div>
-            <div v-else class="space-y-3">
+            <div v-else class="space-y-3 pb-34">
               <GroceryItemCard v-for="(item, index) in listItems" :key="index" :item="item"
                                @check-item="(checked: boolean) => checkItem(checked, item.id)"
                                @delete-item="deleteItem(item.id)"

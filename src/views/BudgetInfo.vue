@@ -13,6 +13,7 @@ const props = defineProps<{
 defineEmits<
     {
       (e: 'expand'): void;
+      (e: 'editBudget'): void;
       (e: 'openBudgetModal'): void;
     }>()
 
@@ -48,14 +49,18 @@ const sortedCheckedItems = computed(() => {
             :corner-smoothing="0.8"
             class="w-full"
         >
-          <div class="bg-secondary/15 p-2 flex justify-between items-center mt-2">
+          <div class="p-2 flex justify-between items-center mt-2">
             <div>
-              <div class="flex items-center gap-2" v-if="budget">
+              <button class="btn btn-ghost bg-primary/15 border-primary/50 border-2 text-primary rounded-full flex items-center gap-2" v-if="budget" @click.stop="$emit('editBudget')">
                 <LucideCoins :size="16" class="opacity-50"/>
-                <p class="text-base-content">{{ $t('budgetInfos.budgetLabel') }}</p>
+                <p>{{ $t('budgetInfos.budgetLabel') }}</p>
                 <p class="font-bold">{{ formatCurrency(budget) }}</p>
-              </div>
-              <BaseButton @click.stop="$emit('openBudgetModal')" v-else size="sm" label="budgetInfos.setBudget" variant="outline" class="text-xs px-2 py-1" />
+              </button>
+              <button class="btn btn-ghost bg-primary/15 border-primary/50 border-2 text-primary rounded-full flex items-center gap-2"
+                      @click.stop="$emit('openBudgetModal')" v-else size="sm">
+                <LucideCoins :size="16" class="opacity-50"/>
+                {{$t('budgetInfos.setBudget')}}
+              </button>
             </div>
             <div>
               <div class="flex items-center gap-2">
