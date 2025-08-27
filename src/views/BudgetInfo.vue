@@ -3,7 +3,6 @@ import type {GroceryItem} from '@/grocery-list/domain/GroceryItem.ts';
 import {computed} from 'vue';
 import {LucideCoins, LucideShoppingCart} from 'lucide-vue-next';
 import Squircle from '@/components/Squircle.vue';
-import BaseButton from '@/components/BaseButton.vue';
 import {useCurrency} from '@/composables/useCurrency.ts';
 
 const props = defineProps<{
