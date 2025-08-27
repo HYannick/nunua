@@ -24,6 +24,8 @@ import {useNotificationStore} from '@/stores/NotificationStore.ts';
 import EditGroceryItemForm from '@/views/EditGroceryItemForm.vue';
 import BudgetInfo from '@/views/BudgetInfo.vue';
 import BudgetSetterModal from '@/views/BudgetSetterModal.vue';
+import {EmptyCartIllustration} from '@/illustrations.ts';
+import EmptyContainerIllustration from '@/views/EmptyContainerIllustration.vue';
 
 const props = defineProps<{
   isOnline: boolean
@@ -239,7 +241,13 @@ const saveBudget = async (budgetValue: string) => {
           />
           <GroceryItemForm :list-id="groceryList.id" :added-by="currentUser?.username || 'Unknown'" @submit="addItem"/>
           <div class="p-5">
-            <div class="space-y-3">
+            <div v-if="listItems.length === 0">
+              <EmptyContainerIllustration title="groceryList.emptyData.title"
+                                          description="groceryList.emptyData.description"
+                                          :illustration="EmptyCartIllustration">
+              </EmptyContainerIllustration>
+            </div>
+            <div v-else class="space-y-3">
               <GroceryItemCard v-for="(item, index) in listItems" :key="index" :item="item"
                                @check-item="(checked: boolean) => checkItem(checked, item.id)"
                                @delete-item="deleteItem(item.id)"

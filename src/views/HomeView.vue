@@ -16,10 +16,12 @@ import {LucideArrowLeftSquare, LucidePlus} from 'lucide-vue-next';
 import GroceryJoinForm from '@/grocery-list/compontents/GroceryJoinForm.vue';
 import {useI18n} from 'vue-i18n';
 import GroceryItemList from '@/views/GroceryItemList.vue';
-import GroceryItemListEmpty from '@/views/GroceryItemListEmpty.vue';
 import {useRoute, useRouter} from 'vue-router';
 import { DrawerRoot } from 'vaul-vue';
 import InstallPWAPrompt from '@/views/InstallPWAPrompt.vue';
+import {EmptyListIllustration} from '@/illustrations.ts';
+import BaseButton from '@/components/BaseButton.vue';
+import EmptyContainerIllustration from '@/views/EmptyContainerIllustration.vue';
 
 const groceryListService = inject('groceryListService') as GroceryListService
 const userStore = useUserStore();
@@ -142,10 +144,16 @@ watch(() => currentTab.value, async (newTab) => {
       <div v-if="currentTab === TabEnum.MY_LISTS" class="max-w-md mx-auto px-5">
         <GroceryItemList :grocery-list="localGroceryList" :loading="localListLoading">
           <template #emptyList>
-            <GroceryItemListEmpty title="emptyData.noLocalList.title" description="emptyData.noLocalList.description" @click="openSheet('create')"
-                                  :actions="[
-            { label: 'buttons.createList', icon: LucidePlus, action: () => openSheet('create') },
-          ]"/>
+            <EmptyContainerIllustration title="emptyData.noLocalList.title"
+                                        description="emptyData.noLocalList.description"
+                                        :illustration="EmptyListIllustration">
+              <template #actions>
+                <div class="flex gap-5 justify-center">
+                  <BaseButton label="buttons.createList" class="mt-5" btnColorClass="btn-secondary text-base-100"
+                              @click="openSheet('create')"/>
+                </div>
+              </template>
+            </EmptyContainerIllustration>
           </template>
         </GroceryItemList>
         <p class="text text-center mt-5 text-base-content/50">{{ $t('localListInfo') }}</p>
@@ -153,10 +161,18 @@ watch(() => currentTab.value, async (newTab) => {
       <div v-if="currentTab === TabEnum.SHARED_LISTS" class="max-w-md mx-auto px-5">
         <GroceryItemList :grocery-list="groceryList" :loading="sharedListLoading">
           <template #emptyList>
-            <GroceryItemListEmpty title="emptyData.sharedList.title" description="emptyData.sharedList.description" :actions="[
-            { label: 'buttons.createList', icon: LucidePlus, action: () => openSheet('create') },
-            { label: 'buttons.joinList', icon: LucideArrowLeftSquare, action: () => openSheet('join') }
-          ]"/>
+            <EmptyContainerIllustration title="emptyData.sharedList.title"
+                                        description="emptyData.sharedList.description"
+                                        :illustration="EmptyListIllustration">
+              <template #actions>
+                <div class="flex gap-5 justify-center">
+                  <BaseButton label="buttons.createList" class="mt-5" btnColorClass="btn-secondary text-base-100"
+                              @click="openSheet('create')"/>
+                  <BaseButton label="buttons.joinList" class="mt-5" btnColorClass="btn-secondary text-base-100"
+                              @click="openSheet('join')"/>
+                </div>
+              </template>
+            </EmptyContainerIllustration>
           </template>
         </GroceryItemList>
 

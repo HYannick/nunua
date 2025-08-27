@@ -4,10 +4,13 @@ import BaseHeroHeading from '@/components/BaseHeroHeading.vue';
 import {useSettingsStore} from '@/settings/store/SettingsStore.ts';
 import {storeToRefs} from 'pinia';
 import InstallPWACard from '@/views/InstallPWACard.vue';
+import BaseAvatar from '@/components/BaseAvatar.vue';
+import {useUserStore} from '@/stores/userStore.ts';
 
 // Inject services
 const router = useRouter()
 
+const {currentUser} = storeToRefs(useUserStore());
 const {preferredCurrency} = storeToRefs(useSettingsStore());
 
 const version = localStorage.getItem('app-version') || '1.0.0';
@@ -25,6 +28,10 @@ const navigateToCurrencySettings = () => {
   router.push({name: 'currency-settings'})
 }
 
+const navigateToProfile = () => {
+  router.push({name: 'profile'})
+}
+
 </script>
 
 <template>
@@ -34,6 +41,35 @@ const navigateToCurrencySettings = () => {
     <!-- Settings List -->
     <div class="bg-base-100">
       <div class="max-w-2xl mx-auto">
+        <div
+            @click="navigateToProfile"
+            class="flex items-center justify-between p-6 bg-base-100 hover:bg-base-200 cursor-pointer transition-colors duration-200 border-b border-base-300"
+        >
+          <div class="flex items-center space-x-6">
+            <div class="flex-shrink-0">
+              <div class="w-7">
+                <div v-if="!currentUser" class="w-14 h-14 rounded-full bg-primary">
+                </div>
+                <BaseAvatar v-else :name="currentUser.avatar" :username="currentUser.username"/>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold text-base-content">{{ $t('settings.profile.title') }}</h3>
+              <p class="text-sm text-base-content/60">{{ $t('settings.profile.description') }}</p>
+            </div>
+          </div>
+          <div class="flex-shrink-0">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-base-content/40"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        </div>
         <!-- Language Settings -->
         <div
             @click="navigateToLanguageSettings"

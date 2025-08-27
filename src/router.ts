@@ -59,7 +59,7 @@ const routes = [
 
   },
   {
-    path: '/profile',
+    path: '/settings/home/profile',
     name: 'profile',
     component: ProfileView,
     meta: {requiresAuth: true, isPublic: false}

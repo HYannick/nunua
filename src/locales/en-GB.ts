@@ -128,6 +128,10 @@ export default {
   "localListInfo": "Personal list can only be accessed, viewed and edited by you.",
   "settings": {
     "title": "Settings",
+    "profile": {
+      "title": "Profile",
+      "description": "Update your local profile",
+    },
     "themes": {
       "title": "Themes",
       "description": "Choose your preferred theme",
@@ -368,6 +372,11 @@ export default {
   },
   loyaltyCards: {
     title: "Loyalty Cards",
+    noCards: {
+      title: "No loyalty cards yet",
+      description: "Add your first loyalty card to get started.",
+      addCardButton: "Add Card"
+    },
     description: "Manage your loyalty cards in one place. Add, edit, and delete your cards easily.",
     addCard: "Add Card",
     editCard: "Edit Card",
@@ -436,5 +445,11 @@ export default {
     description: "For a better experience you can install the app on your device",
     installButton: "Install",
     cancelButton: "Cancel"
+  },
+  groceryList: {
+    emptyData: {
+      title: "No products yet",
+      description: "Add your first product to get started."
+    }
   }
 }
