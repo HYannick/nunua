@@ -81,6 +81,10 @@ export default {
     listCreation: {
       success: "Grocery list created successfully",
       error: "Failed to create grocery list. Try again later",
+    },
+    appInstalled: {
+      success: "App installed successfully",
+      error: "Failed to install the app. Try again later",
     }
   },
   "personalListLabel": "Personal",
