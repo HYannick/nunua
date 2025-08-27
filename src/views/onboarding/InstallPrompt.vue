@@ -35,7 +35,7 @@ onMounted(async () => {
   window.addEventListener('appinstalled', () => {
     bip.value = null;
     appInstalled.value = true;
-    success(t('notifications.appInstalled'));
+    success(t('notifications.appInstalled.success'));
   })
 });
 </script>
