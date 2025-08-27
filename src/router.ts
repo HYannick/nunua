@@ -14,6 +14,7 @@ import CreateLoyaltyCardStep2 from '@/loyalty-card/views/CreateLoyaltyCardStep2.
 import CurrencySettingView from '@/settings/views/CurrencySettingView.vue';
 import JoinGroceryListView from '@/views/JoinGroceryListView.vue';
 import OnboardingJoinListView from '@/views/OnboardingJoinListView.vue';
+import ProfileView from '@/views/ProfileView.vue';
 
 const databaseService = await initializeDatabase();
 function isUserAuthenticated(): boolean {
@@ -54,6 +55,13 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
+    meta: {requiresAuth: true, isPublic: false}
+
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView,
     meta: {requiresAuth: true, isPublic: false}
 
   },

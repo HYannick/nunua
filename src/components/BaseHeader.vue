@@ -12,11 +12,11 @@ defineProps<{
 <template>
   <header class="w-full flex p-5 justify-between items-center">
     <div class="flex items-end gap-2">
-      <div class="w-14">
+      <RouterLink :to="{name:'profile'}" class="w-14">
         <div v-if="!user" class="w-14 h-14 rounded-full bg-primary">
         </div>
         <BaseAvatar v-else :name="user.avatar" :username="user.username"/>
-      </div>
+      </RouterLink>
       <div>
         <p class="font-serif text-md ">{{ $t('greetings.hello') }}</p>
         <p class="font-serif text-xl font-bold">{{ user?.username || 'Struggler' }}</p>

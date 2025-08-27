@@ -73,6 +73,11 @@ export default {
     "save": "Save",
     "continue": "Continue",
   },
+  profile: {
+    label: 'Update profile',
+    title: 'Your profile',
+    description: "Update your local profile! Tap on the avatar to generate one that you like!",
+  },
   notifications: {
     joinList: {
       success: "Successfully joined grocery list",
